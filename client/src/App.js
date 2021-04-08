@@ -40,6 +40,7 @@ import blogs from './pages/blog/blogs'
 import procor_hoyocero from './pages/blog/hoyocero'
 import procor_concepto from './pages/blog/procor-concepto'
 import Post from './components/Post'
+import BlogDetalles from './pages/blog/Blog-detalles'
 
 
 import ProcorDiaDelPadre from './pages/procor-diadelpadre'
@@ -62,7 +63,7 @@ function App() {
           <Navbar />
           <Carrito />
           <Switch>
-            <Route path="/blogs" component={blogs} />
+            <Route exact path="/blogs" component={blogs} />
             <Route path="/faqs" component={faqs} />
             <Route path="/politica-privacidad" component={politicaPrivacidad} />
             <Route path="/aviso-cookies" component={avisoCookies} />
@@ -93,6 +94,7 @@ function App() {
             <Route path="/procor-hoyo-zero" component={procor_hoyocero} />
             <Route path="/procor-diadelpadre" component={ProcorDiaDelPadre} />
             <Route path="/procor-empresas" component={HomeEmpresas} />
+            <Route exact path="/blogs/:id" render={(props) => <BlogDetalles {...props} />} />
             <Route exact path="/Post" component={Post} />
             <Route exact path="/home" component={HomePage} />
             <Route path="/" component={HomePersona} />

@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 import CreatableSelect from "react-select/creatable";
 import NewsService from '../services/news.service'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Link } from 'react-router-dom'
 
 const options = [
-    { value: "pruebas", label: 'pruebas' },
-    { value: "test", label: 'test' },
-    { value: "personas", label: 'personas' },
-    { value: "empresas", label: 'empresas' },
-    { value: "covid-19", label: 'covid - 19' },
-    { value: "noticias", label: 'noticias' },
-    { value: "clientes", label: 'clientes' },
-    { value: "eventos", label: 'eventos' },
-    { value: "espacios covid free", label: 'espacios covid free' },
+    { value: "Pruebas", label: 'Pruebas' },
+    { value: "Test", label: 'Test' },
+    { value: "Personas", label: 'Personas' },
+    { value: "Empresas", label: 'Empresas' },
+    { value: "Covid-19", label: 'Covid - 19' },
+    { value: "Noticias", label: 'Noticias' },
+    { value: "Clientes", label: 'Clientes' },
+    { value: "Eventos", label: 'Eventos' },
+    { value: "Espacios covid free", label: 'Espacios covid free' },
 ]
 
 class NewsForm extends Component {
@@ -23,6 +25,7 @@ class NewsForm extends Component {
             news: {
                 title: '',
                 description: '',
+                intro: '',
                 image: '',
                 tags: [],
             },
@@ -34,6 +37,11 @@ class NewsForm extends Component {
     handleInputChange(e) {
         const { name, value } = e.target
         this.setState({ news: { ...this.state.news, [name]: value } })
+    }
+
+    handleInputChangeCK(e) {
+        const { name, value } = e
+        this.setState({ news: { ...this.state.news, description: e } })
     }
 
     handleNew(e) {
@@ -65,11 +73,22 @@ class NewsForm extends Component {
         })
     }
 
+    countCharsIntro(obj) {
+        console.log(obj.target.innerHTML.length)
+        var maxLength = 400;
+        var strLength = obj.target.innerHTML.length;
+
+        if (strLength > maxLength) {
+            document.getElementById("charNumIntro").innerHTML = '<span style="color: red;">' + strLength + ' out of ' + maxLength + ' characters</span>';
+        } else {
+            document.getElementById("charNumIntro").innerHTML = strLength + '/' + maxLength;
+        }
+    }
 
     countChars(obj) {
-        console.log(obj.target.innerHTML.length)
+        console.log(obj)
         var maxLength = 5000;
-        var strLength = obj.target.innerHTML.length;
+        var strLength = obj.length;
 
         if (strLength > maxLength) {
             document.getElementById("charNum").innerHTML = '<span style="color: red;">' + strLength + ' out of ' + maxLength + ' characters</span>';
@@ -89,11 +108,36 @@ class NewsForm extends Component {
                         <input className="newPost__input" type="text" name="title" value={this.state.news.title} onChange={e => this.handleInputChange(e)} />
                     </label>
                     <label>
-                        Descripcion:
-                        <textarea name="description" value={this.state.news.description} onChange={e => this.handleInputChange(e)} onKeyUp={(e) => this.countChars(e)} />
-                        <small id="charNum">0 characters</small>
-
+                        Entradilla:
+                        <textarea name="description" value={this.state.news.intro} onChange={e => this.handleInputChange(e)} onKeyUp={(e) => this.countCharsIntro(e)} />
+                        <small id="charNumIntro">0 characters</small>
                     </label>
+                    <label style={{ marginBottom: 16 }}>
+                        Descripcion:
+                    </label>
+                    <CKEditor
+                        editor={ClassicEditor}
+                        data={this.state.news.description}
+                        placeholder='El texto del capitulo va aquí'
+                        onInit={editor => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log('Editor is ready to use!', editor)
+                        }}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            this.handleInputChangeCK(data)
+                            this.countChars(data)
+                        }}
+
+                        onBlur={(event, editor) => {
+                            // console.log('Blur.', editor)
+                        }}
+                        onFocus={(event, editor) => {
+                            // console.log('Focus.', editor)
+                        }}
+                    />
+                    <small style={{ marginBottom: 30 }} id="charNum">0 characters</small>
+
                     <label>
                         Foto:
                         <input className="newPost__input" type="text" name="image" value={this.state.news.image} onChange={e => this.handleInputChange(e)} />

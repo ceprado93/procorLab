@@ -107,7 +107,10 @@ background-repeat: no-repeat;
   width: 40%;
 }
 #hoyozero{
-  width: 20% !important;
+  object-fit: cover;
+  object-position: 100% 100%;
+  height: 300px;
+  width: 50% !important;
 }
 .textoBlog{
   width: 100%;
@@ -123,6 +126,10 @@ background-repeat: no-repeat;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.textoBlog__texto strong{
+  font-weight: normal;
 }
 .imgBlog{
   width: 40%;
@@ -277,11 +284,33 @@ code {
   margin: 0 5rem;
   padding-bottom: 4rem;
   display: flex;
+  min-height: 70vh;
 }
 
 #politicas hr{
   color: black;
   margin-top: 30px;
+}
+
+.noPosts{
+  margin:40px;
+}
+
+#politicas__detalles{
+  text-align: justify;
+  padding-top: 7em;
+  margin: 0 5rem;
+  padding-bottom: 4rem;
+  min-height: 70vh;
+}
+
+.tag__active{
+  font-weight: 800;
+  color: black;
+}
+
+.tag__inactive{
+  color: rgb(99, 93, 93);
 }
 
 .columnaNoticias{
@@ -394,7 +423,7 @@ text-decoration: none;
     
     .arrow{
         position:absolute;
-        bottom: 0;
+        top: 100vh;
         display: flex; 
   align-items: center;
   justify-content: center; 
@@ -402,6 +431,7 @@ text-decoration: none;
     }
 
     .bounce {
+      margin-top: 2rem;
        -moz-animation: bounce 2s infinite;
        -webkit-animation: bounce 2s infinite;
        animation: bounce 2s infinite;
@@ -2324,7 +2354,7 @@ font-size: 2rem;
 }
 
 .newPost textarea{
-  height: 250px;
+  height: 150px;
   border: 1px solid black;
   background-color: white;
   width: 98%;

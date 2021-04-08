@@ -16,10 +16,10 @@ router.get('/details/:news_id', (req, res) => {
 
 router.post('/new', (req, res) => {
     console.log(req.body)
-    const { description, title, image, tags } = req.body
+    const { title, image, intro, description, tags } = req.body
     console.log(req.body)
 
-    News.create({ description, title, image, tags })
+    News.create({ title, image, intro, description, tags })
         .then(response => res.json(response))
         .catch(err => res.status(500).json({ code: 500, message: 'Error saving News', err }))
 })
